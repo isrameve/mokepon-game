@@ -21,6 +21,10 @@ input {
   display: none;
 }
 
+input:checked + label {
+  background-color: gray;
+}
+
 .title {
   margin-bottom: 0.5rem;
   font-size: 4rem;
