@@ -1,3 +1,160 @@
-h1 {
-  color: lightcoral;
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+body {
+  background-color: #001a6e;
+  color: #e1ffbb;
+  font-family: cursive;
+}
+
+input {
+  display: none;
+}
+
+.title {
+  margin-bottom: 0.5rem;
+  font-size: 4rem;
+}
+
+.subtitle {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.container {
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.all-mokepons {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+.each-mokepon {
+  display: flex;
+  align-items: center;
+
+  height: 10rem;
+  width: 15rem;
+
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+
+  background-color: #009990;
+  color: white;
+
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.each-mokepon:hover {
+  transform: scale(1.1);
+  opacity: 0.85;
+}
+
+.each-mokepon p {
+  font-size: 1.6rem;
+}
+
+.each-mokepon img {
+  width: 55%;
+}
+
+.pet-button {
+  cursor: pointer;
+
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #074799;
+
+  font-family: cursive;
+  font-size: 1.5rem;
+  color: #001a6e;
+
+  background-color: #e1ffbb;
+  transition: all 0.3s ease-in-out;
+}
+
+.pet-button:hover {
+  transform: scale(1.1);
+}
+
+.powers-buttons {
+  margin-bottom: 1rem;
+}
+
+.powers-buttons button {
+  cursor: pointer;
+
+  font-family: cursive;
+  font-size: 1.5rem;
+
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.lives-cadrs {
+  width: 80vw;
+  display: flex;
+  gap: 10px;
+}
+
+.lives-cadrs p,
+strong,
+span {
+  padding: 10px;
+  width: 50%;
+
+  font-size: 1.5rem;
+  text-align: center;
+  color: #001a6e;
+
+  background-color: #e1ffbb;
+}
+
+.all-atacks {
+  font-size: 2rem;
+}
+
+.reset-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+  cursor: pointer;
+
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid;
+
+  font-family: cursive;
+  font-size: 1.5rem;
+  color: #e1ffbb;
+
+  background-color: #d32f2f;
+  transition: all 0.3s ease-in-out;
+}
+
+.reset-button:hover {
+  transform: scale(1.1);
 }
