@@ -1,24 +1,42 @@
 const pets = ["", "Hipodoge", "Capipepo", "Ratigueya"];
 const powers = ["", "Fuego", "Agua", "Tierra"];
 
+let botonMascotaJugador = document.getElementById("boton-mascota");
+let buttonFire = document.getElementById("button-fire");
+let buttonWater = document.getElementById("button-water");
+let buttonEarth = document.getElementById("button-earth");
+let reload = document.getElementById("boton-reiniciar");
+
+let selectedHipodoge = document.getElementById("hipodoge");
+let selectedCapipepo = document.getElementById("capipepo");
+let selectedRatigueya = document.getElementById("ratigueya");
+
+let spanPetPlayer = document.getElementById("mascota-jugador");
+let spanPetPc = document.getElementById("mascota-enemigo");
+
+let sectionSelectAtk = document.getElementById("seleccionar-ataque");
+let setionChosePet = document.getElementById("seleccionar-mascota");
+
+let spanPowerPc = document.getElementById("poder-enemigo");
+
 let playerAtack = "";
 let pcAtack = "";
 
 let livesPlayer = 3;
 let livesPc = 3;
 
+let spanLivesPlayer = document.getElementById("vidas-jugador");
+let spanLivesPc = document.getElementById("vidas-pc");
+
+let containerResult = document.getElementById("mensajes");
+
 function iniciarJuego() {
-  let botonMascotaJugador = document.getElementById("boton-mascota");
   botonMascotaJugador.addEventListener("click", selectPetPlayer);
 
-  let buttonFire = document.getElementById("button-fire");
   buttonFire.addEventListener("click", powerFire, false);
-  let buttonWater = document.getElementById("button-water");
   buttonWater.addEventListener("click", powerWater, false);
-  let buttonEarth = document.getElementById("button-earth");
   buttonEarth.addEventListener("click", powerEarth, false);
 
-  let reload = document.getElementById("boton-reiniciar");
   reload.addEventListener("click", reloadButton, false);
 
   showLives();
@@ -30,12 +48,6 @@ function randomSelect(max, min) {
 }
 
 function selectPetPlayer() {
-  let selectedHipodoge = document.getElementById("hipodoge");
-  let selectedCapipepo = document.getElementById("capipepo");
-  let selectedRatigueya = document.getElementById("ratigueya");
-
-  let spanPetPlayer = document.getElementById("mascota-jugador");
-
   if (selectedHipodoge.checked) {
     spanPetPlayer.innerHTML = "Hipodoge";
   } else if (selectedCapipepo.checked) {
@@ -49,11 +61,6 @@ function selectPetPlayer() {
 }
 
 function selectPetPc() {
-  let spanPetPc = document.getElementById("mascota-enemigo");
-
-  let sectionSelectAtk = document.getElementById("seleccionar-ataque");
-  let setionChosePet = document.getElementById("seleccionar-mascota");
-
   //Seleccióna aleatoriamente el pesrsonaje para PC
   let selectedPetPc = pets[randomSelect(0, pets.length)];
 
@@ -65,7 +72,6 @@ function selectPetPc() {
 }
 
 function selectPowerPc() {
-  let spanPowerPc = document.getElementById("poder-enemigo");
   pcAtack = powers[randomSelect(0, powers.length)];
 
   const resultado = showScore();
@@ -73,8 +79,6 @@ function selectPowerPc() {
 }
 
 function showBattleMsj(resultado) {
-  let containerResult = document.getElementById("mensajes");
-
   let newP = document.createElement("p");
   newP.innerHTML =
     "Tu mascota atacó con " +
@@ -131,9 +135,6 @@ function showScore() {
 }
 
 function showLives() {
-  let spanLivesPlayer = document.getElementById("vidas-jugador");
-  let spanLivesPc = document.getElementById("vidas-pc");
-
   spanLivesPlayer.innerHTML = livesPlayer;
   spanLivesPc.innerHTML = livesPc;
 }
