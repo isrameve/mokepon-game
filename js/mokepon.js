@@ -1,23 +1,25 @@
 const pets = ["", "Hipodoge", "Capipepo", "Ratigueya"];
 const powers = ["", "Fuego", "Agua", "Tierra"];
 
-let botonMascotaJugador = document.getElementById("boton-mascota");
-let buttonFire = document.getElementById("button-fire");
-let buttonWater = document.getElementById("button-water");
-let buttonEarth = document.getElementById("button-earth");
-let reload = document.getElementById("boton-reiniciar");
+const botonMascotaJugador = document.getElementById("boton-mascota");
+const buttonFire = document.getElementById("button-fire");
+const buttonWater = document.getElementById("button-water");
+const buttonEarth = document.getElementById("button-earth");
+const reload = document.getElementById("boton-reiniciar");
 
-let selectedHipodoge = document.getElementById("hipodoge");
-let selectedCapipepo = document.getElementById("capipepo");
-let selectedRatigueya = document.getElementById("ratigueya");
+const selectedHipodoge = document.getElementById("hipodoge");
+const selectedCapipepo = document.getElementById("capipepo");
+const selectedRatigueya = document.getElementById("ratigueya");
 
-let spanPetPlayer = document.getElementById("mascota-jugador");
-let spanPetPc = document.getElementById("mascota-enemigo");
+const spanPetPlayer = document.getElementById("mascota-jugador");
+const spanPetPc = document.getElementById("mascota-enemigo");
 
-let sectionSelectAtk = document.getElementById("seleccionar-ataque");
-let setionChosePet = document.getElementById("seleccionar-mascota");
+const sectionSelectAtk = document.getElementById("seleccionar-ataque");
+const setionChosePet = document.getElementById("seleccionar-mascota");
 
-let spanPowerPc = document.getElementById("poder-enemigo");
+const spanPowerPc = document.getElementById("poder-enemigo");
+
+let allMokepons = [];
 
 let playerAtack = "";
 let pcAtack = "";
@@ -25,10 +27,63 @@ let pcAtack = "";
 let livesPlayer = 3;
 let livesPc = 3;
 
-let spanLivesPlayer = document.getElementById("vidas-jugador");
-let spanLivesPc = document.getElementById("vidas-pc");
+const spanLivesPlayer = document.getElementById("vidas-jugador");
+const spanLivesPc = document.getElementById("vidas-pc");
 
-let containerResult = document.getElementById("mensajes");
+const containerResult = document.getElementById("mensajes");
+
+class mokepon {
+  constructor(name, img, lives) {
+    this.name = name;
+    this.img = img;
+    this.lives = lives;
+    this.atacks = [];
+  }
+}
+
+let hipodoge = new mokepon(
+  "Hipodige",
+  "./assets/mokepons_mokepon_hipodoge_attack.webp",
+  3
+);
+
+let capipepo = new mokepon(
+  "Capipepo",
+  "./assets/mokepons_mokepon_capipepo_attack.webp",
+  3
+);
+
+let ratigueya = new mokepon(
+  "Ratigueya",
+  "./assets/mokepons_mokepon_ratigueya_attack.webp",
+  3
+);
+
+allMokepons.push(hipodoge, capipepo, ratigueya);
+
+hipodoge.atacks.push(
+  { name: "💧", id: "button-water" },
+  { name: "💧", id: "button-water" },
+  { name: "💧", id: "button-water" },
+  { name: "🌱", id: "button-earth" }
+  { name: "🔥", id: "button-fire" },
+);
+
+capipepo.atacks.push(
+  { name: "🌱", id: "button-earth" },
+  { name: "🌱", id: "button-earth" },
+  { name: "🌱", id: "button-earth" },
+  { name: "💧", id: "button-water" },
+  { name: "🔥", id: "button-fire" }
+);
+
+ratigueya.atacks.push(
+  { name: "🔥", id: "button-fire" },
+  { name: "🔥", id: "button-fire" },
+  { name: "🔥", id: "button-fire" },
+  { name: "🌱", id: "button-earth" }
+  { name: "💧", id: "button-water" },
+);
 
 function iniciarJuego() {
   botonMascotaJugador.addEventListener("click", selectPetPlayer);
