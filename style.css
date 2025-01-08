@@ -15,6 +15,7 @@ body {
   background-color: #001a6e;
   color: #e1ffbb;
   font-family: cursive;
+  padding-bottom: 2rem;
 }
 
 input {
@@ -49,6 +50,7 @@ input:checked + label {
 .all-mokepons {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
   gap: 10px;
 }
