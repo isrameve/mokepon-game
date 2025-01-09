@@ -106,7 +106,7 @@ function iniciarJuego() {
     selectMokeponsZone = `
       <input type="radio" name="mascota" id="${mokepon.id}"/>
         <label for="${mokepon.id}" class="each-mokepon">
-          <p>"${mokepon.name}"</p>
+          <p>${mokepon.name}</p>
           <img
             src="${mokepon.img}"
             alt="imagen de ${mokepon.name}"
@@ -130,13 +130,17 @@ function randomSelect(max, min) {
   return random;
 }
 
+function toUpperCaseFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function selectPetPlayer() {
   if (selectedHipodoge.checked) {
-    spanPetPlayer.innerHTML = "Hipodoge";
+    spanPetPlayer.innerHTML = toUpperCaseFirstLetter(selectedHipodoge.id);
   } else if (selectedCapipepo.checked) {
-    spanPetPlayer.innerHTML = "Capipepo";
+    spanPetPlayer.innerHTML = toUpperCaseFirstLetter(selectedCapipepo.id);
   } else if (selectedRatigueya.checked) {
-    spanPetPlayer.innerHTML = "Ratigueya";
+    spanPetPlayer.innerHTML = toUpperCaseFirstLetter(selectedRatigueya.id);
   } else {
     alert("Elige alguna mascota");
   }
