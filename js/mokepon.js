@@ -1,10 +1,7 @@
-const pets = ["", "Hipodoge", "Capipepo", "Ratigueya"];
-const powers = ["", "Fuego", "Agua", "Tierra"];
+// const pets = ["", "Hipodoge", "Capipepo", "Ratigueya"];
+// const powers = ["", "Fuego", "Agua", "Tierra"];
 
 const botonMascotaJugador = document.getElementById("boton-mascota");
-const buttonFire = document.getElementById("button-fire");
-const buttonWater = document.getElementById("button-water");
-const buttonEarth = document.getElementById("button-earth");
 const reload = document.getElementById("boton-reiniciar");
 
 const cardsMokeponsContainer = document.getElementById(
@@ -17,15 +14,25 @@ const spanPetPc = document.getElementById("mascota-enemigo");
 const sectionSelectAtk = document.getElementById("seleccionar-ataque");
 const setionChosePet = document.getElementById("seleccionar-mascota");
 
+const divSelectAtk = document.getElementById("atack-buttons");
+
 const spanPowerPc = document.getElementById("poder-enemigo");
 
 let selectedHipodoge;
 let selectedCapipepo;
 let selectedRatigueya;
 
+let buttonEarth;
+let buttonFire;
+let buttonWater;
+
 let selectMokeponsZone = "";
+let selectAtacksZone = "";
 
 let allMokepons = [];
+
+let selectedPetPlayer = "";
+let selectedPetPc = "";
 
 let playerAtack = "";
 let pcAtack = "";
@@ -70,37 +77,33 @@ let ratigueya = new Mokepon(
 );
 
 hipodoge.atacks.push(
-  { name: "💧", id: "button-water" },
-  { name: "💧", id: "button-water" },
-  { name: "💧", id: "button-water" },
-  { name: "🌱", id: "button-earth" },
-  { name: "🔥", id: "button-fire" }
+  { name: "💧", id: "button-water", element: "Agua" },
+  { name: "💧", id: "button-water", element: "Agua" },
+  { name: "💧", id: "button-water", element: "Agua" },
+  { name: "🌱", id: "button-earth", element: "Tierra" },
+  { name: "🔥", id: "button-fire", element: "Fuego" }
 );
 
 capipepo.atacks.push(
-  { name: "🌱", id: "button-earth" },
-  { name: "🌱", id: "button-earth" },
-  { name: "🌱", id: "button-earth" },
-  { name: "💧", id: "button-water" },
-  { name: "🔥", id: "button-fire" }
+  { name: "🌱", id: "button-earth", element: "Tierra" },
+  { name: "🌱", id: "button-earth", element: "Tierra" },
+  { name: "🌱", id: "button-earth", element: "Tierra" },
+  { name: "💧", id: "button-water", element: "Agua" },
+  { name: "🔥", id: "button-fire", element: "Fuego" }
 );
 
 ratigueya.atacks.push(
-  { name: "🔥", id: "button-fire" },
-  { name: "🔥", id: "button-fire" },
-  { name: "🔥", id: "button-fire" },
-  { name: "🌱", id: "button-earth" },
-  { name: "💧", id: "button-water" }
+  { name: "🔥", id: "button-fire", element: "Fuego" },
+  { name: "🔥", id: "button-fire", element: "Fuego" },
+  { name: "🔥", id: "button-fire", element: "Fuego" },
+  { name: "🌱", id: "button-earth", element: "Tierra" },
+  { name: "💧", id: "button-water", element: "Agua" }
 );
 
 allMokepons.push(hipodoge, capipepo, ratigueya);
 
 function iniciarJuego() {
   botonMascotaJugador.addEventListener("click", selectPetPlayer);
-
-  buttonFire.addEventListener("click", powerFire, false);
-  buttonWater.addEventListener("click", powerWater, false);
-  buttonEarth.addEventListener("click", powerEarth, false);
 
   allMokepons.forEach((mokepon) => {
     selectMokeponsZone = `
@@ -136,30 +139,51 @@ function toUpperCaseFirstLetter(string) {
 
 function selectPetPlayer() {
   if (selectedHipodoge.checked) {
+    selectedPetPlayer = hipodoge;
     spanPetPlayer.innerHTML = toUpperCaseFirstLetter(selectedHipodoge.id);
   } else if (selectedCapipepo.checked) {
+    selectedPetPlayer = capipepo;
     spanPetPlayer.innerHTML = toUpperCaseFirstLetter(selectedCapipepo.id);
   } else if (selectedRatigueya.checked) {
+    selectedPetPlayer = ratigueya;
     spanPetPlayer.innerHTML = toUpperCaseFirstLetter(selectedRatigueya.id);
   } else {
     alert("Elige alguna mascota");
   }
+
   selectPetPc();
+  return selectedPetPlayer;
 }
 
 function selectPetPc() {
+  selectedPetPlayer.atacks.forEach((atack) => {
+    selectAtacksZone = `
+      <button id="${atack.id}" class="each-attack">${atack.name}</button>
+    `;
+    divSelectAtk.innerHTML += selectAtacksZone;
+  });
+
+  buttonEarth = document.getElementById("button-earth");
+  buttonFire = document.getElementById("button-fire");
+  buttonWater = document.getElementById("button-water");
+
+  buttonEarth.addEventListener("click", powerEarth, false);
+  buttonFire.addEventListener("click", powerFire, false);
+  buttonWater.addEventListener("click", powerWater, false);
+
   //Seleccióna aleatoriamente el pesrsonaje para PC
-  let selectedPetPc = pets[randomSelect(0, pets.length)];
+  selectedPetPc = allMokepons[randomSelect(0, allMokepons.length - 1)];
 
   //Ingresa la mascota de PC
-  spanPetPc.innerHTML = selectedPetPc;
+  spanPetPc.innerHTML = selectedPetPc.name;
 
   sectionSelectAtk.style = false;
   setionChosePet.style.display = "none";
 }
 
 function selectPowerPc() {
-  pcAtack = powers[randomSelect(0, powers.length)];
+  pcAtack =
+    selectedPetPc.atacks[randomSelect(0, selectedPetPc.atacks.length)].element;
 
   const resultado = showScore();
   showBattleMsj(resultado);
