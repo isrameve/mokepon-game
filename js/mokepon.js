@@ -1,6 +1,3 @@
-// const pets = ["", "Hipodoge", "Capipepo", "Ratigueya"];
-// const powers = ["", "Fuego", "Agua", "Tierra"];
-
 const botonMascotaJugador = document.getElementById("boton-mascota");
 const reload = document.getElementById("boton-reiniciar");
 
@@ -18,6 +15,11 @@ const divSelectAtk = document.getElementById("atack-buttons");
 
 const spanPowerPc = document.getElementById("poder-enemigo");
 
+const spanVictoriesPlayer = document.getElementById("victorias-jugador");
+const spanVictoriesPc = document.getElementById("victorias-pc");
+
+const containerResult = document.getElementById("mensajes");
+
 let selectedHipodoge;
 let selectedCapipepo;
 let selectedRatigueya;
@@ -25,6 +27,7 @@ let selectedRatigueya;
 let buttonEarth;
 let buttonFire;
 let buttonWater;
+let buttons = [];
 
 let selectMokeponsZone = "";
 let selectAtacksZone = "";
@@ -34,16 +37,17 @@ let allMokepons = [];
 let selectedPetPlayer = "";
 let selectedPetPc = "";
 
+let allPlayerAtacks = [];
+let allPcAtack = [];
 let playerAtack = "";
 let pcAtack = "";
 
-let livesPlayer = 3;
-let livesPc = 3;
+let resultWinner = 0;
+let resultLoser = 0;
+let resultTie = 0;
 
-const spanLivesPlayer = document.getElementById("vidas-jugador");
-const spanLivesPc = document.getElementById("vidas-pc");
-
-const containerResult = document.getElementById("mensajes");
+let victoriesPlayer = 0;
+let victoriesPc = 0;
 
 class Mokepon {
   constructor(name, id, img, lives) {
@@ -124,8 +128,6 @@ function iniciarJuego() {
   selectedRatigueya = document.getElementById("ratigueya");
 
   reload.addEventListener("click", reloadButton, false);
-
-  showLives();
 }
 
 function randomSelect(max, min) {
@@ -158,7 +160,7 @@ function selectPetPlayer() {
 function selectPetPc() {
   selectedPetPlayer.atacks.forEach((atack) => {
     selectAtacksZone = `
-      <button id="${atack.id}" class="each-attack">${atack.name}</button>
+      <button id="${atack.id}" class="each-attack BAtack">${atack.name}</button>
     `;
     divSelectAtk.innerHTML += selectAtacksZone;
   });
@@ -167,9 +169,7 @@ function selectPetPc() {
   buttonFire = document.getElementById("button-fire");
   buttonWater = document.getElementById("button-water");
 
-  buttonEarth.addEventListener("click", powerEarth, false);
-  buttonFire.addEventListener("click", powerFire, false);
-  buttonWater.addEventListener("click", powerWater, false);
+  buttons = document.querySelectorAll(".BAtack");
 
   //Seleccióna aleatoriamente el pesrsonaje para PC
   selectedPetPc = allMokepons[randomSelect(0, allMokepons.length - 1)];
@@ -179,14 +179,102 @@ function selectPetPc() {
 
   sectionSelectAtk.style = false;
   setionChosePet.style.display = "none";
+
+  atackSequence();
+}
+
+function atackSequence() {
+  buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      if (e.target.textContent === "🔥") {
+        allPlayerAtacks.push("Fuego");
+        button.style.background = "#273F43";
+        button.disabled = true;
+        playerAtack = "Fuego";
+        console.log(allPlayerAtacks);
+      } else if (e.target.textContent === "💧") {
+        allPlayerAtacks.push("Agua");
+        button.style.background = "#273F43";
+        button.disabled = true;
+        playerAtack = "Agua";
+        console.log(allPlayerAtacks);
+      } else {
+        allPlayerAtacks.push("Tierra");
+        button.style.background = "#273F43";
+        button.disabled = true;
+        playerAtack = "Tierra";
+        console.log(allPlayerAtacks);
+      }
+      selectPowerPc();
+    });
+  });
 }
 
 function selectPowerPc() {
   pcAtack =
-    selectedPetPc.atacks[randomSelect(0, selectedPetPc.atacks.length)].element;
+    selectedPetPc.atacks[randomSelect(0, selectedPetPc.atacks.length - 1)]
+      .element;
 
-  const resultado = showScore();
-  showBattleMsj(resultado);
+  if (pcAtack === "Fuego") {
+    allPcAtack.push("Fuego");
+    pcAtack = "Fuego";
+  } else if (pcAtack === "Agua") {
+    allPcAtack.push("Agua");
+    pcAtack = "Agua";
+  } else {
+    allPcAtack.push("Tierra");
+    pcAtack = "Tierra";
+  }
+
+  console.log(allPcAtack);
+
+  allPowersSelected();
+}
+
+function allPowersSelected() {
+  if (
+    allPlayerAtacks.length === selectedPetPlayer.atacks.length &&
+    allPcAtack.length === selectedPetPc.atacks.length
+  ) {
+    showScore();
+  }
+}
+
+function showScore() {
+  let resultado = [];
+
+  for (let i = 0; i < allPlayerAtacks.length; i++) {
+    if (allPlayerAtacks[i] == allPcAtack[i]) {
+      resultado.push("Empate");
+      showBattleMsj(resultado[i]);
+      resultTie = resultTie + 1;
+    } else if (allPlayerAtacks[i] == "Agua" && allPcAtack[i] == "Fuego") {
+      resultado.push("Ganaste");
+      victoriesPlayer = victoriesPlayer + 1;
+      spanVictoriesPlayer.innerHTML = victoriesPlayer;
+      showBattleMsj(resultado[i]);
+      resultWinner = resultWinner + 1;
+    } else if (allPlayerAtacks[i] == "Fuego" && allPcAtack[i] == "Tierra") {
+      resultado.push("Ganaste");
+      victoriesPlayer = victoriesPlayer + 1;
+      spanVictoriesPlayer.innerHTML = victoriesPlayer;
+      showBattleMsj(resultado[i]);
+      resultWinner = resultWinner + 1;
+    } else if (allPlayerAtacks[i] == "Tierra" && allPcAtack[i] == "Agua") {
+      resultado.push("Ganaste");
+      victoriesPlayer = victoriesPlayer + 1;
+      spanVictoriesPlayer.innerHTML = victoriesPlayer;
+      showBattleMsj(resultado[i]);
+      resultWinner = resultWinner + 1;
+    } else {
+      resultado.push("Perdiste");
+      victoriesPc = victoriesPc + 1;
+      spanVictoriesPc.innerHTML = victoriesPc;
+      showBattleMsj(resultado[i]);
+      resultLoser = resultLoser + 1;
+    }
+  }
+  setTimeout(showVictories, 1000);
 }
 
 function showBattleMsj(resultado) {
@@ -200,70 +288,17 @@ function showBattleMsj(resultado) {
     resultado;
 
   containerResult.appendChild(newP);
-  gameOver();
 }
 
-function powerFire() {
-  playerAtack = "Fuego";
-  selectPowerPc();
-  showLives();
-}
-function powerWater() {
-  playerAtack = "Agua";
-  selectPowerPc();
-  showLives();
-}
-function powerEarth() {
-  playerAtack = "Tierra";
-  selectPowerPc();
-  showLives();
-}
-
-function showScore() {
-  let resultado = "";
-
-  if (playerAtack == pcAtack) {
-    resultado = "Empate";
-    // console.log("Tu " + ptsPlayer + " Tu enemigo " + ptsPc);
-  } else if (playerAtack == "Agua" && pcAtack == "Fuego") {
-    livesPc = livesPc - 1;
-    resultado = "Ganaste";
-    console.log("Tu " + livesPlayer + " Tu enemigo " + livesPc);
-  } else if (playerAtack == "Fuego" && pcAtack == "Tierra") {
-    livesPc = livesPc - 1;
-    resultado = "Ganaste";
-    console.log("Tu " + livesPlayer + " Tu enemigo " + livesPc);
-  } else if (playerAtack == "Tierra" && pcAtack == "Agua") {
-    livesPc = livesPc - 1;
-    resultado = "Ganaste";
-    console.log("Tu " + livesPlayer + " Tu enemigo " + livesPc);
+function showVictories() {
+  if (resultWinner > resultLoser) {
+    alert("Ganaste");
+  } else if (resultWinner === resultLoser) {
+    alert("Empate");
   } else {
-    livesPlayer = livesPlayer - 1;
-    resultado = "Perdiste";
-    console.log("Tu " + livesPlayer + " Tu enemigo " + livesPc);
+    alert("Perdiste");
   }
-  return resultado;
-}
-
-function showLives() {
-  spanLivesPlayer.innerHTML = livesPlayer;
-  spanLivesPc.innerHTML = livesPc;
-}
-
-function gameOver() {
-  if (livesPc == 0) {
-    livesPlayer = 3;
-    livesPc = 3;
-
-    alert("Ganaste el juego");
-    location.reload();
-  } else if (livesPlayer == 0) {
-    livesPlayer = 3;
-    livesPc = 3;
-
-    alert("Pierdes el juego");
-    location.reload();
-  }
+  location.reload();
 }
 
 function reloadButton() {
