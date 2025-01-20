@@ -105,6 +105,10 @@ input:checked + label {
   transform: scale(1.1);
 }
 
+.see-map {
+  flex-direction: column;
+}
+
 .powers-buttons {
   margin-bottom: 1rem;
 }

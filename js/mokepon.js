@@ -11,6 +11,9 @@ const spanPetPc = document.getElementById("mascota-enemigo");
 const sectionSelectAtk = document.getElementById("seleccionar-ataque");
 const setionChosePet = document.getElementById("seleccionar-mascota");
 
+const sectionSeeMap = document.getElementById("see-map");
+const sectionMap = document.getElementById("map");
+
 const divSelectAtk = document.getElementById("atack-buttons");
 
 const spanPowerPc = document.getElementById("poder-enemigo");
@@ -37,6 +40,9 @@ let allMokepons = [];
 let selectedPetPlayer = "";
 let selectedPetPc = "";
 
+let atackIndex = 0;
+let allAtacksIndex = [];
+
 let allPlayerAtacks = [];
 let allPcAtack = [];
 let playerAtack = "";
@@ -60,7 +66,7 @@ class Mokepon {
 }
 
 let hipodoge = new Mokepon(
-  "Hipodige",
+  "Hipodoge",
   "hipodoge",
   "./assets/mokepons_mokepon_hipodoge_attack.webp",
   3
@@ -107,6 +113,8 @@ ratigueya.atacks.push(
 allMokepons.push(hipodoge, capipepo, ratigueya);
 
 function iniciarJuego() {
+  sectionSeeMap.style.display = "none";
+
   botonMascotaJugador.addEventListener("click", selectPetPlayer);
 
   allMokepons.forEach((mokepon) => {
@@ -130,9 +138,12 @@ function iniciarJuego() {
   reload.addEventListener("click", reloadButton, false);
 }
 
-function randomSelect(max, min) {
-  let random = Math.floor(Math.random() * (max - min + 1) + min);
-  return random;
+function randomSelect(min, max) {
+  let random = Math.random();
+  let scaled = random * (max - min + 1);
+  let floored = Math.floor(scaled);
+  let result = floored + min;
+  return result;
 }
 
 function toUpperCaseFirstLetter(string) {
@@ -165,10 +176,6 @@ function selectPetPc() {
     divSelectAtk.innerHTML += selectAtacksZone;
   });
 
-  buttonEarth = document.getElementById("button-earth");
-  buttonFire = document.getElementById("button-fire");
-  buttonWater = document.getElementById("button-water");
-
   buttons = document.querySelectorAll(".BAtack");
 
   //Seleccióna aleatoriamente el pesrsonaje para PC
@@ -177,8 +184,9 @@ function selectPetPc() {
   //Ingresa la mascota de PC
   spanPetPc.innerHTML = selectedPetPc.name;
 
-  sectionSelectAtk.style = false;
+  // sectionSelectAtk.style = false;
   setionChosePet.style.display = "none";
+  sectionSeeMap.style.display = "flex";
 
   atackSequence();
 }
@@ -189,21 +197,21 @@ function atackSequence() {
       if (e.target.textContent === "🔥") {
         allPlayerAtacks.push("Fuego");
         button.style.background = "#273F43";
-        button.disabled = true;
         playerAtack = "Fuego";
         console.log(allPlayerAtacks);
+        button.disabled = true;
       } else if (e.target.textContent === "💧") {
         allPlayerAtacks.push("Agua");
         button.style.background = "#273F43";
-        button.disabled = true;
         playerAtack = "Agua";
         console.log(allPlayerAtacks);
+        button.disabled = true;
       } else {
         allPlayerAtacks.push("Tierra");
         button.style.background = "#273F43";
-        button.disabled = true;
         playerAtack = "Tierra";
         console.log(allPlayerAtacks);
+        button.disabled = true;
       }
       selectPowerPc();
     });
@@ -211,20 +219,20 @@ function atackSequence() {
 }
 
 function selectPowerPc() {
-  pcAtack =
-    selectedPetPc.atacks[randomSelect(0, selectedPetPc.atacks.length - 1)]
-      .element;
-
-  if (pcAtack === "Fuego") {
-    allPcAtack.push("Fuego");
-    pcAtack = "Fuego";
-  } else if (pcAtack === "Agua") {
-    allPcAtack.push("Agua");
-    pcAtack = "Agua";
-  } else {
-    allPcAtack.push("Tierra");
-    pcAtack = "Tierra";
+  if (allAtacksIndex.length >= selectedPetPc.atacks.length) {
+    console.log("Todos los ataques ya han sido utilizados.");
+    return;
   }
+
+  do {
+    atackIndex = randomSelect(0, selectedPetPc.atacks.length - 1); //0, 4
+  } while (allAtacksIndex.includes(atackIndex));
+
+  allAtacksIndex.push(atackIndex);
+  console.log(allAtacksIndex);
+
+  pcAtack = selectedPetPc.atacks[atackIndex].element;
+  allPcAtack.push(pcAtack);
 
   console.log(allPcAtack);
 
