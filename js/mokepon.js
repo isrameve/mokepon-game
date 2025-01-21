@@ -32,6 +32,8 @@ let buttonFire;
 let buttonWater;
 let buttons = [];
 
+let theCanvasMap = sectionMap.getContext("2d");
+
 let selectMokeponsZone = "";
 let selectAtacksZone = "";
 
@@ -187,6 +189,10 @@ function selectPetPc() {
   // sectionSelectAtk.style = false;
   setionChosePet.style.display = "none";
   sectionSeeMap.style.display = "flex";
+
+  let imgPetPlayerSelected = new Image();
+  imgPetPlayerSelected.src = selectedPetPlayer.img;
+  theCanvasMap.drawImage(imgPetPlayerSelected, 20, 40, 100, 100);
 
   atackSequence();
 }
