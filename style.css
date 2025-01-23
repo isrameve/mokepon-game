@@ -29,6 +29,7 @@ input:checked + label {
 .title {
   margin-bottom: 0.5rem;
   font-size: 4rem;
+  text-align: center;
 }
 
 .subtitle {
